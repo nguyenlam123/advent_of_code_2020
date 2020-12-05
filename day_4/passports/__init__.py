@@ -1,3 +1,16 @@
+REQUIRED_FIELDS = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
+REQ = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
+REQ.sort()
+
+def have_fields(keys):
+  fields = list(keys)
+
+  if 'cid' in fields:
+    fields.remove('cid')
+  
+  fields.sort()
+  return True if fields == REQ else False
+
 def get_valid_passports(file):
   required_fields = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
   count = 0
@@ -12,13 +25,13 @@ def get_valid_passports(file):
         temp_fields_dict[key_val[0]] = key_val[1]
     else: 
       field_keys = temp_fields_dict.keys()
-      if set(required_fields).issubset(set(field_keys)) or field_keys == required_fields:
+      if have_fields(field_keys):
         count += 1
       temp_fields_dict = {}
   
   if len(temp_fields_dict.keys()) > 0:
     field_keys = temp_fields_dict.keys()
-    if set(required_fields).issubset(set(field_keys)) or field_keys == required_fields:
+    if have_fields(field_keys):
       count += 1
     temp_fields_dict = {}
   
