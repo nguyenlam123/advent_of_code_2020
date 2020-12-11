@@ -1,0 +1,4 @@
+red bags contain 4 shiny gold bags.
+yellow bags contain 1 shiny blue bags.
+shiny gold bags contain no other bags.
+shiny blue bags contain no other bags.
