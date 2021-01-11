@@ -1,30 +1,3 @@
-def remove_deps(dep, amount, dict_in_dict, golds):
-  if dep in dict_in_dict:
-    sub_dict = dict_in_dict[dep]
-    if type(sub_dict) is dict:
-      sum = 0
-      for key, value in sub_dict.items():
-        sum += value * remove_deps(key, value, dict_in_dict, golds)
-      golds[dep] = sub_dict
-      return sum
-    else:
-      golds[dep] = 0
-      return 1
-
-def remove_shiny_gold_assoc(dict_in_dict):
-  golds = {}
-  sum = 0
-  shiny_gold = {}
-  did = dict(dict_in_dict)
-  for key, dctnr in dict_in_dict.items():
-    if key == 'shinygold':
-      if type(dctnr) is dict:
-        shiny_gold = dctnr
-        for dep, amount in dctnr.items():
-          sum += amount + amount * remove_deps(dep, amount, dict_in_dict, golds)
-      del did[key]
-  return (golds, sum, shiny_gold)
-
 def get_descendant_bags(bag_type, map):
   if bag_type in map:
     sub_dict = map[bag_type]
@@ -65,9 +38,7 @@ def count_bags_in_shiny_gold(file):
         bags[bag] = amount[0]
     
       containers[container] = bags
-  bags_map = {}
-  golds = remove_shiny_gold_assoc(containers)
 
-  nbr_bags = get_bags(golds[0], golds[2])
+  nbr_bags = get_bags(containers, containers['shinygold'])
     
   return nbr_bags
